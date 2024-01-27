@@ -161,5 +161,6 @@ cython_debug/
 node_modules
 .next
 
-# env file
-.env.example
+# local env files
+.env*
+!.env*.example
