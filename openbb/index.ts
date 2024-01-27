@@ -105,6 +105,12 @@ const test = async () => {
       return acc
     }, {})
   }
+
+  const array = Object.keys(averageByDate).map(date => {
+    return { date, ...averageByDate[date] }
+  })
+
+  console.log(array)
 }
 
 test()
