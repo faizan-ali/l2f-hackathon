@@ -1,18 +1,15 @@
 import PromptSuggestionButton from "./PromptSuggestionButton";
+import { useRouter } from "next/navigation";
 
 const PromptSuggestionRow = ({ onPromptClick }) => {
-  const prompts = [
-    'How does similarity search work with a Vector DB?',
-    'What is DataStax Enterprise?',
-    'How does CassIO work?',
-    'What are some common FAQs about Astra?',
-  ];
+  const router = useRouter();
 
   return (
     <div className="flex flex-row flex-wrap justify-start items-center py-4 gap-2">
-      {prompts.map((prompt, index) => (
-        <PromptSuggestionButton key={`suggestion-${index}`} text={prompt} onClick={() => onPromptClick(prompt)} />
-      ))}
+      <PromptSuggestionButton
+        text="View insights"
+        onClick={() => router.push("/insights")}
+      />
     </div>
   );
 };
