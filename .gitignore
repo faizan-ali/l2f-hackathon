@@ -160,3 +160,6 @@ cython_debug/
 
 node_modules
 .next
+
+# env file
+.env.example
