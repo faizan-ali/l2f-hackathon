@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getArticles, getHistoricalPrices } from '../../../openbb'
 
 export const Portfolio = [
   {
@@ -31,1011 +32,296 @@ export const Portfolio = [
   }
 ]
 
-export const GET = async (req: Request)=>  {
-   return NextResponse.json([
-    {
-      'date': '2024-01-26',
-      'value': 153.79
-    },
-    {
-      'date': '2024-01-25',
-      'value': 153.64
-    },
-    {
-      'date': '2024-01-24',
-      'value': 150.35
-    },
-    {
-      'date': '2024-01-23',
-      'value': 148.68
-    },
-    {
-      'date': '2024-01-22',
-      'value': 147.71
-    },
-    {
-      'date': '2024-01-19',
-      'value': 147.97
-    },
-    {
-      'date': '2024-01-18',
-      'value': 144.99
-    },
-    {
-      'date': '2024-01-17',
-      'value': 142.89
-    },
-    {
-      'date': '2024-01-16',
-      'value': 144.08
-    },
-    {
-      'date': '2024-01-12',
-      'value': 144.24
-    },
-    {
-      'date': '2024-01-11',
-      'value': 143.67
-    },
-    {
-      'date': '2024-01-10',
-      'value': 143.8
-    },
-    {
-      'date': '2024-01-09',
-      'value': 142.56
-    },
-    {
-      'date': '2024-01-08',
-      'value': 140.53
-    },
-    {
-      'date': '2024-01-05',
-      'value': 137.39
-    },
-    {
-      'date': '2024-01-04',
-      'value': 138.04
-    },
-    {
-      'date': '2024-01-03',
-      'value': 140.36
-    },
-    {
-      'date': '2024-01-02',
-      'value': 139.56
-    },
-    {
-      'date': '2023-12-29',
-      'value': 140.93
-    },
-    {
-      'date': '2023-12-28',
-      'value': 141.28
-    },
-    {
-      'date': '2023-12-27',
-      'value': 141.44
-    },
-    {
-      'date': '2023-12-26',
-      'value': 142.82
-    },
-    {
-      'date': '2023-12-22',
-      'value': 142.72
-    },
-    {
-      'date': '2023-12-21',
-      'value': 141.8
-    },
-    {
-      'date': '2023-12-20',
-      'value': 139.66
-    },
-    {
-      'date': '2023-12-19',
-      'value': 138.1
-    },
-    {
-      'date': '2023-12-18',
-      'value': 137.19
-    },
-    {
-      'date': '2023-12-15',
-      'value': 133.84
-    },
-    {
-      'date': '2023-12-14',
-      'value': 133.2
-    },
-    {
-      'date': '2023-12-13',
-      'value': 133.97
-    },
-    {
-      'date': '2023-12-12',
-      'value': 133.64
-    },
-    {
-      'date': '2023-12-11',
-      'value': 134.7
-    },
-    {
-      'date': '2023-12-08',
-      'value': 136.64
-    },
-    {
-      'date': '2023-12-07',
-      'value': 138.45
-    },
-    {
-      'date': '2023-12-06',
-      'value': 131.43
-    },
-    {
-      'date': '2023-12-05',
-      'value': 132.39
-    },
-    {
-      'date': '2023-12-04',
-      'value': 130.63
-    },
-    {
-      'date': '2023-12-01',
-      'value': 133.32
-    },
-    {
-      'date': '2023-11-30',
-      'value': 133.92
-    },
-    {
-      'date': '2023-11-29',
-      'value': 136.4
-    },
-    {
-      'date': '2023-11-28',
-      'value': 138.62
-    },
-    {
-      'date': '2023-11-27',
-      'value': 138.05
-    },
-    {
-      'date': '2023-11-24',
-      'value': 138.22
-    },
-    {
-      'date': '2023-11-22',
-      'value': 140.02
-    },
-    {
-      'date': '2023-11-21',
-      'value': 138.62
-    },
-    {
-      'date': '2023-11-20',
-      'value': 137.92
-    },
-    {
-      'date': '2023-11-17',
-      'value': 136.94
-    },
-    {
-      'date': '2023-11-16',
-      'value': 138.7
-    },
-    {
-      'date': '2023-11-15',
-      'value': 136.38
-    },
-    {
-      'date': '2023-11-14',
-      'value': 135.43
-    },
-    {
-      'date': '2023-11-13',
-      'value': 133.64
-    },
-    {
-      'date': '2023-11-10',
-      'value': 134.06
-    },
-    {
-      'date': '2023-11-09',
-      'value': 131.69
-    },
-    {
-      'date': '2023-11-08',
-      'value': 133.26
-    },
-    {
-      'date': '2023-11-07',
-      'value': 132.4
-    },
-    {
-      'date': '2023-11-06',
-      'value': 131.45
-    },
-    {
-      'date': '2023-11-03',
-      'value': 130.37
-    },
-    {
-      'date': '2023-11-02',
-      'value': 128.58
-    },
-    {
-      'date': '2023-11-01',
-      'value': 127.57
-    },
-    {
-      'date': '2023-10-31',
-      'value': 125.3
-    },
-    {
-      'date': '2023-10-30',
-      'value': 125.75
-    },
-    {
-      'date': '2023-10-27',
-      'value': 123.4
-    },
-    {
-      'date': '2023-10-26',
-      'value': 123.44
-    },
-    {
-      'date': '2023-10-25',
-      'value': 126.67
-    },
-    {
-      'date': '2023-10-24',
-      'value': 140.12
-    },
-    {
-      'date': '2023-10-23',
-      'value': 137.9
-    },
-    {
-      'date': '2023-10-20',
-      'value': 136.74
-    },
-    {
-      'date': '2023-10-19',
-      'value': 138.98
-    },
-    {
-      'date': '2023-10-18',
-      'value': 139.28
-    },
-    {
-      'date': '2023-10-17',
-      'value': 140.99
-    },
-    {
-      'date': '2023-10-16',
-      'value': 140.49
-    },
-    {
-      'date': '2023-10-13',
-      'value': 138.58
-    },
-    {
-      'date': '2023-10-12',
-      'value': 140.29
-    },
-    {
-      'date': '2023-10-11',
-      'value': 141.7
-    },
-    {
-      'date': '2023-10-10',
-      'value': 139.2
-    },
-    {
-      'date': '2023-10-09',
-      'value': 139.5
-    },
-    {
-      'date': '2023-10-06',
-      'value': 138.73
-    },
-    {
-      'date': '2023-10-05',
-      'value': 135.99
-    },
-    {
-      'date': '2023-10-04',
-      'value': 136.27
-    },
-    {
-      'date': '2023-10-03',
-      'value': 133.3
-    },
-    {
-      'date': '2023-10-02',
-      'value': 135.17
-    },
-    {
-      'date': '2023-09-29',
-      'value': 131.85
-    },
-    {
-      'date': '2023-09-28',
-      'value': 133.13
-    },
-    {
-      'date': '2023-09-27',
-      'value': 131.46
-    },
-    {
-      'date': '2023-09-26',
-      'value': 129.45
-    },
-    {
-      'date': '2023-09-25',
-      'value': 132.17
-    },
-    {
-      'date': '2023-09-22',
-      'value': 131.25
-    },
-    {
-      'date': '2023-09-21',
-      'value': 131.36
-    },
-    {
-      'date': '2023-09-20',
-      'value': 134.59
-    },
-    {
-      'date': '2023-09-19',
-      'value': 138.83
-    },
-    {
-      'date': '2023-09-18',
-      'value': 138.96
-    },
-    {
-      'date': '2023-09-15',
-      'value': 138.3
-    },
-    {
-      'date': '2023-09-14',
-      'value': 138.99
-    },
-    {
-      'date': '2023-09-13',
-      'value': 137.5
-    },
-    {
-      'date': '2023-09-12',
-      'value': 136.07
-    },
-    {
-      'date': '2023-09-11',
-      'value': 137.74
-    },
-    {
-      'date': '2023-09-08',
-      'value': 137.2
-    },
-    {
-      'date': '2023-09-07',
-      'value': 136.2
-    },
-    {
-      'date': '2023-09-06',
-      'value': 135.37
-    },
-    {
-      'date': '2023-09-05',
-      'value': 136.71
-    },
-    {
-      'date': '2023-09-01',
-      'value': 136.8
-    },
-    {
-      'date': '2023-08-31',
-      'value': 137.35
-    },
-    {
-      'date': '2023-08-30',
-      'value': 136.93
-    },
-    {
-      'date': '2023-08-29',
-      'value': 135.49
-    },
-    {
-      'date': '2023-08-28',
-      'value': 131.79
-    },
-    {
-      'date': '2023-08-25',
-      'value': 130.69
-    },
-    {
-      'date': '2023-08-24',
-      'value': 130.42
-    },
-    {
-      'date': '2023-08-23',
-      'value': 133.21
-    },
-    {
-      'date': '2023-08-22',
-      'value': 129.69
-    },
-    {
-      'date': '2023-08-21',
-      'value': 128.93
-    },
-    {
-      'date': '2023-08-18',
-      'value': 128.11
-    },
-    {
-      'date': '2023-08-17',
-      'value': 130.46
-    },
-    {
-      'date': '2023-08-16',
-      'value': 129.11
-    },
-    {
-      'date': '2023-08-15',
-      'value': 130.27
-    },
-    {
-      'date': '2023-08-14',
-      'value': 131.83
-    },
-    {
-      'date': '2023-08-11',
-      'value': 130.17
-    },
-    {
-      'date': '2023-08-10',
-      'value': 130.21
-    },
-    {
-      'date': '2023-08-09',
-      'value': 130.15
-    },
-    {
-      'date': '2023-08-08',
-      'value': 131.84
-    },
-    {
-      'date': '2023-08-07',
-      'value': 131.94
-    },
-    {
-      'date': '2023-08-04',
-      'value': 128.54
-    },
-    {
-      'date': '2023-08-03',
-      'value': 128.77
-    },
-    {
-      'date': '2023-08-02',
-      'value': 128.64
-    },
-    {
-      'date': '2023-08-01',
-      'value': 131.89
-    },
-    {
-      'date': '2023-07-31',
-      'value': 133.11
-    },
-    {
-      'date': '2023-07-28',
-      'value': 133.01
-    },
-    {
-      'date': '2023-07-27',
-      'value': 129.87
-    },
-    {
-      'date': '2023-07-26',
-      'value': 129.66
-    },
-    {
-      'date': '2023-07-25',
-      'value': 122.79
-    },
-    {
-      'date': '2023-07-24',
-      'value': 121.88
-    },
-    {
-      'date': '2023-07-21',
-      'value': 120.31
-    },
-    {
-      'date': '2023-07-20',
-      'value': 119.53
-    },
-    {
-      'date': '2023-07-19',
-      'value': 122.78
-    },
-    {
-      'date': '2023-07-18',
-      'value': 124.08
-    },
-    {
-      'date': '2023-07-17',
-      'value': 125.06
-    },
-    {
-      'date': '2023-07-14',
-      'value': 125.7
-    },
-    {
-      'date': '2023-07-13',
-      'value': 124.83
-    },
-    {
-      'date': '2023-07-12',
-      'value': 119.62
-    },
-    {
-      'date': '2023-07-11',
-      'value': 117.71
-    },
-    {
-      'date': '2023-07-10',
-      'value': 116.87
-    },
-    {
-      'date': '2023-07-07',
-      'value': 120.14
-    },
-    {
-      'date': '2023-07-06',
-      'value': 120.93
-    },
-    {
-      'date': '2023-07-05',
-      'value': 122.63
-    },
-    {
-      'date': '2023-07-03',
-      'value': 120.56
-    },
-    {
-      'date': '2023-06-30',
-      'value': 120.97
-    },
-    {
-      'date': '2023-06-29',
-      'value': 120.01
-    },
-    {
-      'date': '2023-06-28',
-      'value': 121.08
-    },
-    {
-      'date': '2023-06-27',
-      'value': 119.01
-    },
-    {
-      'date': '2023-06-26',
-      'value': 119.09
-    },
-    {
-      'date': '2023-06-23',
-      'value': 123.02
-    },
-    {
-      'date': '2023-06-22',
-      'value': 123.87
-    },
-    {
-      'date': '2023-06-21',
-      'value': 121.26
-    },
-    {
-      'date': '2023-06-20',
-      'value': 123.85
-    },
-    {
-      'date': '2023-06-16',
-      'value': 124.06
-    },
-    {
-      'date': '2023-06-15',
-      'value': 125.79
-    },
-    {
-      'date': '2023-06-14',
-      'value': 124.38
-    },
-    {
-      'date': '2023-06-13',
-      'value': 124.43
-    },
-    {
-      'date': '2023-06-12',
-      'value': 124.35
-    },
-    {
-      'date': '2023-06-09',
-      'value': 122.87
-    },
-    {
-      'date': '2023-06-08',
-      'value': 122.67
-    },
-    {
-      'date': '2023-06-07',
-      'value': 122.94
-    },
-    {
-      'date': '2023-06-06',
-      'value': 127.91
-    },
-    {
-      'date': '2023-06-05',
-      'value': 126.63
-    },
-    {
-      'date': '2023-06-02',
-      'value': 125.23
-    },
-    {
-      'date': '2023-06-01',
-      'value': 124.37
-    },
-    {
-      'date': '2023-05-31',
-      'value': 123.37
-    },
-    {
-      'date': '2023-05-30',
-      'value': 124.64
-    },
-    {
-      'date': '2023-05-26',
-      'value': 125.43
-    },
-    {
-      'date': '2023-05-25',
-      'value': 124.35
-    },
-    {
-      'date': '2023-05-24',
-      'value': 121.64
-    },
-    {
-      'date': '2023-05-23',
-      'value': 123.29
-    },
-    {
-      'date': '2023-05-22',
-      'value': 125.87
-    },
-    {
-      'date': '2023-05-19',
-      'value': 123.25
-    },
-    {
-      'date': '2023-05-18',
-      'value': 123.52
-    },
-    {
-      'date': '2023-05-17',
-      'value': 121.48
-    },
-    {
-      'date': '2023-05-16',
-      'value': 120.09
-    },
-    {
-      'date': '2023-05-15',
-      'value': 116.96
-    },
-    {
-      'date': '2023-05-12',
-      'value': 117.92
-    },
-    {
-      'date': '2023-05-11',
-      'value': 116.9
-    },
-    {
-      'date': '2023-05-10',
-      'value': 112.28
-    },
-    {
-      'date': '2023-05-09',
-      'value': 107.94
-    },
-    {
-      'date': '2023-05-08',
-      'value': 108.24
-    },
-    {
-      'date': '2023-05-05',
-      'value': 106.22
-    },
-    {
-      'date': '2023-05-04',
-      'value': 105.21
-    },
-    {
-      'date': '2023-05-03',
-      'value': 106.12
-    },
-    {
-      'date': '2023-05-02',
-      'value': 105.98
-    },
-    {
-      'date': '2023-05-01',
-      'value': 107.71
-    },
-    {
-      'date': '2023-04-28',
-      'value': 108.22
-    },
-    {
-      'date': '2023-04-27',
-      'value': 108.37
-    },
-    {
-      'date': '2023-04-26',
-      'value': 104.45
-    },
-    {
-      'date': '2023-04-25',
-      'value': 104.61
-    },
-    {
-      'date': '2023-04-24',
-      'value': 106.78
-    },
-    {
-      'date': '2023-04-21',
-      'value': 105.91
-    },
-    {
-      'date': '2023-04-20',
-      'value': 105.9
-    },
-    {
-      'date': '2023-04-19',
-      'value': 105.02
-    },
-    {
-      'date': '2023-04-18',
-      'value': 105.12
-    },
-    {
-      'date': '2023-04-17',
-      'value': 106.42
-    },
-    {
-      'date': '2023-04-14',
-      'value': 109.46
-    },
-    {
-      'date': '2023-04-13',
-      'value': 108.19
-    },
-    {
-      'date': '2023-04-12',
-      'value': 105.22
-    },
-    {
-      'date': '2023-04-11',
-      'value': 106.12
-    },
-    {
-      'date': '2023-04-10',
-      'value': 106.95
-    },
-    {
-      'date': '2023-04-06',
-      'value': 108.9
-    },
-    {
-      'date': '2023-04-05',
-      'value': 104.95
-    },
-    {
-      'date': '2023-04-04',
-      'value': 105.12
-    },
-    {
-      'date': '2023-04-03',
-      'value': 104.91
-    },
-    {
-      'date': '2023-03-31',
-      'value': 104
-    },
-    {
-      'date': '2023-03-30',
-      'value': 101.32
-    },
-    {
-      'date': '2023-03-29',
-      'value': 101.9
-    },
-    {
-      'date': '2023-03-28',
-      'value': 101.36
-    },
-    {
-      'date': '2023-03-27',
-      'value': 103.06
-    },
-    {
-      'date': '2023-03-24',
-      'value': 106.06
-    },
-    {
-      'date': '2023-03-23',
-      'value': 106.26
-    },
-    {
-      'date': '2023-03-22',
-      'value': 104.22
-    },
-    {
-      'date': '2023-03-21',
-      'value': 105.84
-    },
-    {
-      'date': '2023-03-20',
-      'value': 101.93
-    },
-    {
-      'date': '2023-03-17',
-      'value': 102.46
-    },
-    {
-      'date': '2023-03-16',
-      'value': 101.07
-    },
-    {
-      'date': '2023-03-15',
-      'value': 96.55
-    },
-    {
-      'date': '2023-03-14',
-      'value': 94.25
-    },
-    {
-      'date': '2023-03-13',
-      'value': 91.66
-    },
-    {
-      'date': '2023-03-10',
-      'value': 91.01
-    },
-    {
-      'date': '2023-03-09',
-      'value': 92.66
-    },
-    {
-      'date': '2023-03-08',
-      'value': 94.65
-    },
-    {
-      'date': '2023-03-07',
-      'value': 94.17
-    },
-    {
-      'date': '2023-03-06',
-      'value': 95.58
-    },
-    {
-      'date': '2023-03-03',
-      'value': 94.02
-    },
-    {
-      'date': '2023-03-02',
-      'value': 92.31
-    },
-    {
-      'date': '2023-03-01',
-      'value': 90.51
-    },
-    {
-      'date': '2023-02-28',
-      'value': 90.3
-    },
-    {
-      'date': '2023-02-27',
-      'value': 90.1
-    },
-    {
-      'date': '2023-02-24',
-      'value': 89.35
-    },
-    {
-      'date': '2023-02-23',
-      'value': 91.07
-    },
-    {
-      'date': '2023-02-22',
-      'value': 91.8
-    },
-    {
-      'date': '2023-02-21',
-      'value': 92.05
-    },
-    {
-      'date': '2023-02-17',
-      'value': 94.59
-    },
-    {
-      'date': '2023-02-16',
-      'value': 95.78
-    },
-    {
-      'date': '2023-02-15',
-      'value': 97.1
-    },
-    {
-      'date': '2023-02-14',
-      'value': 94.95
-    },
-    {
-      'date': '2023-02-13',
-      'value': 95
-    },
-    {
-      'date': '2023-02-10',
-      'value': 94.86
-    },
-    {
-      'date': '2023-02-09',
-      'value': 95.46
-    },
-    {
-      'date': '2023-02-08',
-      'value': 100
-    },
-    {
-      'date': '2023-02-07',
-      'value': 108.04
-    },
-    {
-      'date': '2023-02-06',
-      'value': 103.47
-    },
-    {
-      'date': '2023-02-03',
-      'value': 105.22
-    },
-    {
-      'date': '2023-02-02',
-      'value': 108.8
-    },
-    {
-      'date': '2023-02-01',
-      'value': 101.43
-    },
-    {
-      'date': '2023-01-31',
-      'value': 99.87
-    },
-    {
-      'date': '2023-01-30',
-      'value': 97.95
-    },
-    {
-      'date': '2023-01-27',
-      'value': 100.71
-    }
-  ])
+const hardCoded = {
+  '2023-12-01': {
+    value: 280.9914285714285,
+    swing: undefined,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-04': {
+    value: 276.1357142857143,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-05': {
+    value: 279.75428571428574,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-06': {
+    value: 277.40714285714284,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-07': {
+    value: 281.75714285714287,
+    swing: true,
+    articles: [
+      'https://seekingalpha.com/article/4656965-investors-take-note-alphabet-stock-is-still-a-buy',
+      'https://www.fool.com/investing/2023/12/09/3-top-artificial-intelligence-stocks-to-buy-right/',
+      'https://www.youtube.com/watch?v=pz_gc6ZpJf4'
+    ],
+    swingTickers: [
+      'GOOG', 'AAPL',
+      'MSFT', 'NVDA',
+      'TSLA', 'AMZN',
+      'MA'
+    ]
+  },
+  '2023-12-08': {
+    value: 283.58000000000004,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-11': {
+    value: 280.96999999999997,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-12': {
+    value: 283.5057142857143,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-13': {
+    value: 285.7128571428571,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-14': {
+    value: 285.3957142857143,
+    swing: true,
+    articles: [],
+    swingTickers: ['TSLA', 'AMZN', 'MA']
+  },
+  '2023-12-15': {
+    value: 287.5828571428571,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-18': {
+    value: 291.01142857142855,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-19': {
+    value: 291.54571428571427,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-20': {
+    value: 286.41857142857145,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-21': {
+    value: 290.24285714285713,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-22': {
+    value: 289.89428571428573,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-26': {
+    value: 291.00142857142856,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-27': {
+    value: 291.71000000000004,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-28': {
+    value: 291.1771428571429,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2023-12-29': {
+    value: 290.2357142857143,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-02': {
+    value: 285.4271428571429,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-03': { value: 282.37, swing: false, articles: [], swingTickers: [] },
+  '2024-01-04': {
+    value: 281.4485714285714,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-05': {
+    value: 282.77714285714285,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-08': {
+    value: 290.69142857142856,
+    swing: true,
+    articles: [
+      'https://finance.yahoo.com/video/fpt-chairman-overseas-expansion-plans-054414284.html?.tsrc=rss',
+      'https://finance.yahoo.com/news/vietnam-fpt-sees-overseas-sales-031130809.html?.tsrc=rss',
+      'https://techcrunch.com/2024/01/10/ces-2024-everything-you-need-to-know/?.tsrc=rss'
+    ],
+    swingTickers: ['NVDA', 'TSLA', 'AMZN', 'MA']
+  },
+  '2024-01-09': {
+    value: 291.97428571428566,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-10': {
+    value: 296.0285714285714,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-11': {
+    value: 295.89000000000004,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-12': {
+    value: 295.47714285714284,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-16': {
+    value: 297.6028571428572,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-17': { value: 295.75, swing: false, articles: [], swingTickers: [] },
+  '2024-01-18': {
+    value: 299.2371428571428,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-19': {
+    value: 305.3457142857143,
+    swing: true,
+    articles: [
+      'https://finance.yahoo.com/news/nvidia-ceo-makes-first-china-022348791.html?.tsrc=rss',
+      'https://www.fool.com/investing/2024/01/21/history-says-nasdaq-to-gain-2-ai-stocks-to-buy/?source=eptyholnk0000202&utm_source=yahoo-host-full&utm_medium=feed&utm_campaign=article&.tsrc=rss',
+      'https://finance.yahoo.com/news/30-best-investors-twitter-social-171430248.html?.tsrc=rss'
+    ],
+    swingTickers: ['NVDA', 'TSLA', 'AMZN', 'MA']
+  },
+  '2024-01-22': {
+    value: 305.42571428571426,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-23': {
+    value: 306.4871428571428,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-24': {
+    value: 309.2042857142857,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-25': {
+    value: 306.5757142857143,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  },
+  '2024-01-26': {
+    value: 305.9071428571428,
+    swing: false,
+    articles: [],
+    swingTickers: []
+  }
+}
+  export const GET = async (req: Request) => {
+  // const tickers = Portfolio.map(_ => _.ticker)
+  // const allPricesWithArticles: Array<{
+  //   ticker: string
+  //   swing: boolean,
+  //   articles: string[],
+  //   date: string,
+  //   value: number,
+  //   swingPercentage: number
+  // }> = []
+  //
+  // for (const ticker of tickers) {
+  //   const prices = await getHistoricalPrices(ticker)
+  //   allPricesWithArticles.push(...(await Promise.all(prices.map(async price => {
+  //     if (price.swing) {
+  //       const articles = await getArticles(ticker, price.date)
+  //       return { ...price, articles, ticker }
+  //     }
+  //
+  //     return { ...price, articles: [], ticker }
+  //   }))))
+  // }
+  //
+  // const valuesByDate: Record<string, {
+  //   values: number[],
+  //   swing: boolean,
+  //   articles: string[],
+  //   swingTickers: string[]
+  // }> = {}
+  //
+  // allPricesWithArticles.forEach(price => {
+  //   if (!valuesByDate[price.date]) {
+  //     valuesByDate[price.date] = { values: [], swing: false, articles: [], swingTickers: [] }
+  //   }
+  //
+  //   valuesByDate[price.date].values.push(price.value)
+  //   valuesByDate[price.date].swing = valuesByDate[price.date].swing || price.swing
+  //   valuesByDate[price.date].articles.push(...price.articles)
+  //   valuesByDate[price.date].swing && valuesByDate[price.date].swingTickers.push(price.ticker)
+  // })
+  //
+  // const averageByDate: Record<string, { value: number, swing: boolean, articles: string[], swingTickers: string[] }> = {
+  //   ...Object.keys(valuesByDate).reduce((acc, date) => {
+  //     acc[date] = {
+  //       value: valuesByDate[date].values.reduce((a, b) => a + b, 0) / valuesByDate[date].values.length,
+  //       swing: valuesByDate[date].swing,
+  //       articles: valuesByDate[date].articles,
+  //       swingTickers: valuesByDate[date].swingTickers
+  //     }
+  //
+  //     return acc
+  //   }, {})
+  // }
+
+  return NextResponse.json(hardCoded)
 }
