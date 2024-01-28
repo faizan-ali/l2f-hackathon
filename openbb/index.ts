@@ -39,9 +39,14 @@ export const getHistoricalPrices = async (ticker: string): Promise<Array<{
     const change = result.value - previous.close
     const percentageChange = (change / previous.close) * 100
     const isSwingIncrease = change > 0
-    const swing = Math.abs(percentageChange) > 4
+    const swing = Math.abs(percentageChange) > 4.5
 
-    return { ...result, swing, swingPercentage: percentageChange, ...(swing && { isSwingIncrease }), actualChange: change }
+    return {
+      ...result,
+      swing,
+      swingPercentage: percentageChange, ...(swing && { isSwingIncrease }),
+      actualChange: change
+    }
   })
 
   return prices
@@ -98,7 +103,7 @@ const test = async () => {
           ...price,
           articles,
           ticker,
-          summary,
+          summary
         }
       }
 
@@ -168,7 +173,7 @@ const test = async () => {
 }
 
 const test2 = async () => {
-  console.log(await getHistoricalPrices('TSLA'))
+  console.log(await getHistoricalPrices('TSLA').then(_ => _.filter(e => e.swing)).then(_ => _.length))
 }
 
 test()
