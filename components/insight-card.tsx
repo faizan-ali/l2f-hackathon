@@ -9,7 +9,7 @@ interface InsightCardProps {
 export default function InsightCard({ insights }: InsightCardProps) {
   return (
     <div className='fixed top-1/2 transform -translate-y-1/2 left-20 flex p-4 z-50'>
-      <div className='flex-shrink-0 max-w-sm mx-2 bg-gray-200 rounded-md overflow-hidden shadow-lg z-50'>
+      <div className='flex-shrink-0 max-w-sm mx-2 bg-gray-100 rounded-md overflow-hidden shadow-lg z-50'>
         <div className='p-6'>
           <h3 className='font-semibold'>{insights.date}</h3>
 

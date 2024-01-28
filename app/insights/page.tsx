@@ -30,6 +30,7 @@ const CustomizedDot = props => {
   )
 }
 export default function Overview() {
+  const [isLoading, setLoading] = useState<boolean>(true)
   const [portfolioData, setPortfolioData] = useState<PortfolioData[]>([])
   const [currentInsight, setCurrentInsight] = useState<PortfolioInsights>({
     date: '',
@@ -45,13 +46,23 @@ export default function Overview() {
         const data = await response.json()
 
         setPortfolioData(data)
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching data:', error)
+        setLoading(false)
       }
     }
 
     fetchPortfolioData()
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center h-screen'>
+        <div className='animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-900'></div>
+      </div>
+    )
+  }
 
   return (
     <div className='mt-10'>
