@@ -1,97 +1,87 @@
-"use client";
-import { useState } from "react";
-import {
-  LineChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  Legend,
-  Line,
-  XAxis,
-  YAxis,
-} from "recharts";
+'use client'
+import { useEffect, useState } from 'react'
+import { LineChart, CartesianGrid, ResponsiveContainer, Tooltip, Legend, Line, XAxis, YAxis } from 'recharts'
 
-import InsightCard from "../../components/insight-card";
-import { type Insights } from "../../components/insight-card";
+import InsightCard from '../../components/insight-card'
+import { type PortfolioInsights } from '../../components/insight-card'
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
-export default function Overview() {
-  const [currentInsight, setCurrentInsight] = useState<Insights[]>([
-    {
-      name: "",
-      uv: 0,
-      pv: 0,
-      amt: 0,
-    },
-  ]);
+export interface PortfolioData {
+  value: number
+  date: string
+  swing: boolean | undefined
+  articles: string[]
+  swingTickers: string[]
+  summaries: string[]
+}
+
+const CustomizedDot = props => {
+  const { cx, cy, stroke, payload, value } = props
+  const isFilled = payload && payload.swing // indicator if there was a swing on this day
 
   return (
-    <div className="mt-10">
-      {currentInsight.length && <InsightCard insights={currentInsight} />}
-      <ResponsiveContainer width="100%" height={900}>
+    <circle
+      cx={cx}
+      cy={cy}
+      r={5} // Adjust the radius according to your preference
+      fill={isFilled ? '#1651d0' : 'white'}
+      stroke='#1651d0'
+      strokeWidth={2}
+    />
+  )
+}
+export default function Overview() {
+  const [portfolioData, setPortfolioData] = useState<PortfolioData[]>([])
+  const [currentInsight, setCurrentInsight] = useState<PortfolioInsights>({
+    date: '',
+    articles: [],
+    swingTickers: [],
+    summaries: []
+  })
+
+  useEffect(() => {
+    const fetchPortfolioData = async () => {
+      try {
+        const response = await fetch('/api/portfolio')
+        const data = await response.json()
+
+        setPortfolioData(data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    fetchPortfolioData()
+  }, [])
+
+  return (
+    <div className='mt-10'>
+      {currentInsight.articles.length > 0 && <InsightCard insights={currentInsight} />}
+      <ResponsiveContainer width='100%' height={900}>
         <LineChart
           width={730}
           height={250}
-          data={data}
+          data={portfolioData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          onClick={(e) => {
-            const { activeTooltipIndex } = e;
-            const currentInsight = data[activeTooltipIndex];
+          onClick={e => {
+            const { activeTooltipIndex } = e
+            const currentInsight = portfolioData[activeTooltipIndex]
 
-            setCurrentInsight([currentInsight]);
+            setCurrentInsight({
+              articles: currentInsight.articles,
+              swingTickers: currentInsight.swingTickers,
+              summaries: currentInsight.summaries,
+              date: currentInsight.date
+            })
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <CartesianGrid strokeDasharray='2 2' />
+          <XAxis dataKey='date' />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" />
+          <Line type='monotone' dataKey='value' stroke='#1651d0' dot={<CustomizedDot />} strokeWidth={2.5} />
         </LineChart>
       </ResponsiveContainer>
     </div>
-  );
+  )
 }
