@@ -180,7 +180,7 @@ export class OpenAI {
   computeTokens = (input: string): number => encode(input).length
 }
 
-export const openai = new OpenAI('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')
+export const openai = new OpenAI('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')
 
 export const getSummary = (ticker: string, increase: boolean, article: string): Promise<string> => {
   return openai.chatCompletion(`You are a seasoned Wall Street analyst who is an expert in linking news cycle events to stock price swings.

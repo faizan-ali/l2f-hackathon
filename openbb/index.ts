@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 import { addDays, isSameDay, subDays } from 'date-fns'
 import { Portfolio } from '../app/api/portfolio/route'
 import { getSummary, openai } from '../lib/openai'
+import { mongo } from '../lib/mongo'
 
 const request = async (path: string): Promise<any> => {
   return await fetch(`https://mindsdb2024.openbb.dev/api/v1${path}`, {
@@ -21,9 +22,10 @@ export const getHistoricalPrices = async (ticker: string): Promise<Array<{
   date: string,
   value: number,
   swing: boolean,
-  swingPercentage: number
+  swingPercentage: number,
+  isSwingIncrease: boolean
 }>> => {
-  const { results } = await request(`/equity/price/historical?provider=intrinio&symbol=${ticker}&interval=1d&timezone=UTC&source=realtime&start_date=2023-12-01`)
+  const { results } = await request(`/equity/price/historical?provider=intrinio&symbol=${ticker}&interval=1d&timezone=UTC&source=realtime&start_date=2023-11-01`)
   const prices = results.reverse().map(_ => ({ date: _.date, value: _.close })).map((result, index) => {
     if (index === 0) {
       return result
@@ -33,18 +35,20 @@ export const getHistoricalPrices = async (ticker: string): Promise<Array<{
 
     const change = result.value - previous.close
     const percentageChange = (change / previous.close) * 100
+    const isSwingIncrease = change > 0
+    const swing = percentageChange > 3
 
-    return { ...result, swing: percentageChange > 4, swingPercentage: percentageChange }
+    return { ...result, swing, swingPercentage: percentageChange, ...(swing && { isSwingIncrease }) }
   })
 
   return prices
 }
 
 export const getArticles = async (ticker: string, date: string): Promise<Array<string>> => {
-  const intrinResults = await request(`/news/company?provider=intrinio&symbols=${ticker}&display=headline&sort=created&order=desc&limit=500`).then(_ => _.results)
-  const fnpResults = await request(`/news/company?provider=fmp&symbols=${ticker}&display=headline&sort=created&order=desc&limit=500`).then(_ => _.results)
+  const intrinResults = await request(`/news/company?provider=intrinio&symbols=${ticker}&display=headline&sort=created&order=desc&limit=5000`).then(_ => _.results)
+  const fnpResults = await request(`/news/company?provider=fmp&symbols=${ticker}&display=headline&sort=created&order=desc&limit=5000`).then(_ => _.results)
 
-  return [...intrinResults, ...fnpResults].filter(result => {
+  const results = [...intrinResults, ...fnpResults].filter(result => {
     if (ticker === 'GOOG') {
       return result.symbols === 'GOOG' || result.symbols === 'GOOG,GOOGL' || result.symbols === 'GOOGL,GOOG'
     }
@@ -55,7 +59,9 @@ export const getArticles = async (ticker: string, date: string): Promise<Array<s
         isSameDay(addDays(new Date(result.date), 3), new Date(date))
     }
   ).map(_ => _.url)
-    .slice(0, 3)
+
+  console.log(`Found ${results.length} articles for ${ticker} on ${date}`)
+  return results.slice(0, 2)
 }
 
 const test = async () => {
@@ -63,12 +69,12 @@ const test = async () => {
 
   const allPricesWithArticles: Array<{
     ticker: string
-    swing?: boolean,
+    swing: boolean,
     articles: string[]
     isSwingIncrease?: boolean,
     date: string,
     value: number,
-    summaries: string[]
+    summary?: string
     swingPercentage: number
   }> = []
 
@@ -76,24 +82,24 @@ const test = async () => {
     const prices = await getHistoricalPrices(ticker)
     allPricesWithArticles.push(...(await Promise.all(prices.map(async price => {
       if (price.swing) {
-        const articles = await getArticles(ticker, price.date)
-        const isIncrease = price.swingPercentage > 0
 
-        const summaries = await Promise.all(articles.map(async article => {
-          const summary = getSummary(ticker, isIncrease, article)
+        const articles = await getArticles(ticker, price.date)
+
+        const summary = (await Promise.all(articles.map(async article => {
+          const summary = getSummary(ticker, price.isSwingIncrease, article)
           return summary
-        }))
+        }))).join('\n')
+
 
         return {
           ...price,
           articles,
           ticker,
-          summaries,
-          isSwingIncrease: isIncrease
+          summary,
         }
       }
 
-      return { ...price, ticker, articles: [], summaries: [] }
+      return { ...price, ticker, articles: [] }
     }))))
   }
 
@@ -118,11 +124,11 @@ const test = async () => {
     }
 
     valuesByDate[price.date].values.push(price.value)
-    valuesByDate[price.date].swing = valuesByDate[price.date].swing || price.swing
+    price.swing = price.swing || valuesByDate[price.date].swing
     valuesByDate[price.date].articles.push(...price.articles)
-    valuesByDate[price.date].swing && valuesByDate[price.date].swingTickers.push(price.ticker)
-    valuesByDate[price.date].isSwingIncrease = valuesByDate[price.date].isSwingIncrease || price.isSwingIncrease
-    valuesByDate[price.date].summaries.push(...price.summaries)
+    price.swing && valuesByDate[price.date].swingTickers.push(price.ticker)
+    price.isSwingIncrease = price.isSwingIncrease === undefined ? valuesByDate[price.date].isSwingIncrease : price.isSwingIncrease
+    price.summary && valuesByDate[price.date].summaries.push(price.summary)
   })
 
   const averageByDate: Record<string, {
@@ -150,12 +156,15 @@ const test = async () => {
   const array = Object.keys(averageByDate).map(date => {
     return { date, ...averageByDate[date] }
   })
+  //
+  // for (const elt of array) {
+  //   await mongo.insertOne(elt)
+  // }
 
   console.log(array)
 }
 
 test()
-
 
 
 const promptTest = async () => {
