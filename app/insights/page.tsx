@@ -16,7 +16,7 @@ export interface PortfolioData {
 
 const CustomizedDot = props => {
   const { cx, cy, stroke, payload, value } = props
-  const isFilled = payload && payload.swing // indicator if there was a swing on this day
+  const isFilled = (payload && payload.swing) || payload.articles.length // indicator if there was a swing on this day
 
   return (
     <circle
