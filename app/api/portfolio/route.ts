@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { getArticles, getHistoricalPrices } from '../../../openbb'
 
 export const Portfolio = [
   {
@@ -33,63 +32,6 @@ export const Portfolio = [
 ]
 
 export const GET = async (req: Request) => {
-  const tickers = Portfolio.map(_ => _.ticker)
-  const allPricesWithArticles: Array<{
-    ticker: string
-    swing: boolean,
-    articles: string[],
-    date: string,
-    value: number,
-    swingPercentage: number
-  }> = []
-
-  for (const ticker of tickers) {
-    const prices = await getHistoricalPrices(ticker)
-    allPricesWithArticles.push(...(await Promise.all(prices.map(async price => {
-      if (price.swing) {
-        const articles = await getArticles(ticker, price.date)
-        return { ...price, articles, ticker }
-      }
-
-      return { ...price, articles: [], ticker }
-    }))))
-  }
-
-  const valuesByDate: Record<string, {
-    values: number[],
-    swing: boolean,
-    articles: string[],
-    swingTickers: string[]
-  }> = {}
-
-  allPricesWithArticles.forEach(price => {
-    if (!valuesByDate[price.date]) {
-      valuesByDate[price.date] = { values: [], swing: false, articles: [], swingTickers: [] }
-    }
-
-    valuesByDate[price.date].values.push(price.value)
-    valuesByDate[price.date].swing = valuesByDate[price.date].swing || price.swing
-    valuesByDate[price.date].articles.push(...price.articles)
-    valuesByDate[price.date].swing && valuesByDate[price.date].swingTickers.push(price.ticker)
-  })
-
-  const averageByDate: Record<string, { value: number, swing: boolean, articles: string[], swingTickers: string[] }> = {
-    ...Object.keys(valuesByDate).reduce((acc, date) => {
-      acc[date] = {
-        value: valuesByDate[date].values.reduce((a, b) => a + b, 0) / valuesByDate[date].values.length,
-        swing: valuesByDate[date].swing,
-        articles: valuesByDate[date].articles,
-        swingTickers: valuesByDate[date].swingTickers
-      }
-
-      return acc
-    }, {})
-  }
-
-  const array = Object.keys(averageByDate).map(date => {
-    return { date, ...averageByDate[date] }
-  })
-
   return NextResponse.json([
     {
       date: '2023-11-01',
