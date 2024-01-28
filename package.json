@@ -1,7 +1,8 @@
 {
-  "name": "ragbot-starter",
+  "name": "l2f",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build && npm run seed",
@@ -10,15 +11,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aliuq/gpt-3-encoder": "^1.1.5",
     "@datastax/astra-db-ts": "0.1.4",
+    "@playwright/test": "^1.41.1",
     "@types/node": "^20.8.10",
     "ai": "^2.2.20",
+    "cheerio": "1.0.0-rc.12",
     "date-fns": "^3.3.1",
     "geist": "^1.1.0",
     "langchain": "^0.0.179",
     "next": "14.0.1",
     "node-fetch": "^3.3.2",
-    "openai": "^4.14.2",
+    "openai": "^4.26.0",
+    "p-queue": "^5.0.0",
     "react": "^18",
     "react-dom": "^18",
     "react-markdown": "^9.0.0",
