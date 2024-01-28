@@ -1,8 +1,10 @@
+require('dotenv').config()
+
 import fetch from 'node-fetch'
 import { addDays, isSameDay, subDays } from 'date-fns'
 import { Portfolio } from '../app/api/portfolio/route'
 import { getSummary, openai } from '../lib/openai'
-import { mongo } from '../lib/mongo'
+
 
 const request = async (path: string): Promise<any> => {
   return await fetch(`https://mindsdb2024.openbb.dev/api/v1${path}`, {
@@ -23,7 +25,8 @@ export const getHistoricalPrices = async (ticker: string): Promise<Array<{
   value: number,
   swing: boolean,
   swingPercentage: number,
-  isSwingIncrease: boolean
+  isSwingIncrease: boolean,
+  actualChange: number
 }>> => {
   const { results } = await request(`/equity/price/historical?provider=intrinio&symbol=${ticker}&interval=1d&timezone=UTC&source=realtime&start_date=2023-11-01`)
   const prices = results.reverse().map(_ => ({ date: _.date, value: _.close })).map((result, index) => {
@@ -36,9 +39,9 @@ export const getHistoricalPrices = async (ticker: string): Promise<Array<{
     const change = result.value - previous.close
     const percentageChange = (change / previous.close) * 100
     const isSwingIncrease = change > 0
-    const swing = percentageChange > 3
+    const swing = Math.abs(percentageChange) > 3
 
-    return { ...result, swing, swingPercentage: percentageChange, ...(swing && { isSwingIncrease }) }
+    return { ...result, swing, swingPercentage: percentageChange, ...(swing && { isSwingIncrease }), actualChange: change }
   })
 
   return prices
@@ -164,8 +167,11 @@ const test = async () => {
   console.log(array)
 }
 
-test()
+const test2 = async () => {
+  console.log(await getHistoricalPrices('TSLA'))
+}
 
+test()
 
 const promptTest = async () => {
   const response = openai.chatCompletion(`You are a seasoned Wall Street analyst who is an expert in linking news cycle events to stock price swings.

@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/src/resources/chat/completions'
 import OpenAIAPI from 'openai'
 import { encode } from '@aliuq/gpt-3-encoder'
@@ -180,12 +182,16 @@ export class OpenAI {
   computeTokens = (input: string): number => encode(input).length
 }
 
-export const openai = new OpenAI('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')
+export const openai = new OpenAI(process.env.OPEN_AI_API_KEY!)
 
 export const getSummary = (ticker: string, increase: boolean, article: string): Promise<string> => {
   return openai.chatCompletion(`You are a seasoned Wall Street analyst who is an expert in linking news cycle events to stock price swings.
 
 Given the article below, explain why the stock ${ticker} has ${increase ? 'increased' : 'decreased'}.
 
-Your response MUST be a single paragraph.  I will tip extra for simple, easy to understand language.`, article, 'gpt-4')
+Limitations:
+Your response MUST be a single paragraph.  
+Do not mention that your are summarizing the article.
+
+I will tip extra for simple, easy to understand language.`, article, 'gpt-4')
 }
